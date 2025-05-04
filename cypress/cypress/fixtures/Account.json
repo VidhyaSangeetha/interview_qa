@@ -1,0 +1,13 @@
+{"selectors":{
+    "signout":".logout",
+    "email":"#email",
+    "password":"#pass",
+    "signin":"#send2",
+    "myAccount":"div[class=\"panel header\"] button[class=\"action switch\"]",
+    "header":"h1[class=\"page-title\"] span"
+},
+"data":{
+    "email": "test_v@gmail.com",
+    "password": "Testtest123"}
+  }
+  

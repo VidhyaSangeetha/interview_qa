@@ -1,0 +1,16 @@
+{
+  "data": {
+    "firstname": "Test",
+    "lastname": "User",
+    "password": "NewPass@123"
+  },
+  "selectors": {
+    "firstName": "#firstname",
+    "lastName": "#lastname",
+    "email": "#email_address",
+    "password": "#password",
+    "confirmPassword": "#password-confirmation",
+    "createAnAccount":"button[title=\"Create an Account\"]",
+    "successMessage":".message-success > div"
+  }
+}

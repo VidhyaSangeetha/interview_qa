@@ -1,0 +1,354 @@
+{
+	"info": {
+		"_postman_id": "ec5067b0-69e5-4bba-822e-efb573728d8e",
+		"name": "Petstore API Tests",
+		"description": "Automate tests for Petstore API's",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44621330",
+		"_collection_link": "https://vidhya-2790610.postman.co/workspace/8bd3c007-5732-441b-82ce-924f5af0d575/collection/44621330-ec5067b0-69e5-4bba-822e-efb573728d8e?action=share&source=collection_link&creator=44621330"
+	},
+	"item": [
+		{
+			"name": "Add new pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Pet ID matches\", function () {",
+							"  pm.expect(response.id).to.eql(parseInt(pm.environment.get(\"petId\")));",
+							"});",
+							"",
+							"pm.test(\"Pet Name matches\", function () {",
+							"  pm.expect(response.name).to.eql(pm.environment.get(\"petName\"));",
+							"});",
+							"",
+							"pm.test(\"Status matches\", function () {",
+							"  pm.expect(response.status).to.eql(pm.environment.get(\"petStatus\"));",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.environment.set(\"petId\", response.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							"  const petId = Math.floor(Math.random() * 1000000);",
+							"const petName = `Pet_${Math.random().toString(36).substring(7)}`;",
+							"const petStatus = 'available';",
+							"",
+							"pm.environment.set(\"petId\", petId);",
+							"pm.environment.set(\"petName\", petName);",
+							"pm.environment.set(\"petStatus\", petStatus);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": {{petId}},\n  \"category\": {\n    \"id\": 1,\n    \"name\": \"Dogs\"\n  },\n  \"name\": \"{{petName}}\",\n  \"photoUrls\": [\"https://example.com/photo.jpg\"],\n  \"tags\": [\n    {\n      \"id\": 1,\n      \"name\": \"friendly\"\n    }\n  ],\n  \"status\": \"{{petStatus}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pet By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Pet ID is correct\", function () {",
+							"  pm.expect(response.id).to.eql(parseInt(pm.environment.get(\"petId\")));",
+							"});",
+							"",
+							"pm.test(\"Pet Name is correct\", function () {",
+							"  pm.expect(response.name).to.eql(pm.environment.get(\"petName\"));",
+							"});",
+							"",
+							"pm.test(\"Status is correct\", function () {",
+							"  pm.expect(response.status).to.eql(pm.environment.get(\"petStatus\"));",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{petId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pet By Random Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"  pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Verify Error message\", function () {",
+							"  const res = pm.response.json();",
+							"  pm.expect(res.message).to.include(\"Pet not found\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/99999999",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"99999999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pet By Invalid Id Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"  pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/test",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new pet with invalid data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"pm.test(\"Should return error for invalid input fields\", function () {",
+							"  pm.expect(pm.response.code).to.be.oneOf([400, 405]);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n    \"animal\": \"Dogs\",\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new pet with invalid datatype",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"pm.test(\"Should return error for invalid/missing fields\", function () {",
+							"  pm.expect(pm.response.code).to.be.oneOf([400, 405]);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							"  const petId = Math.floor(Math.random() * 1000000);",
+							"const petName = `Pet_${Math.random().toString(36).substring(7)}`;",
+							"const petStatus = 'available';",
+							"",
+							"pm.environment.set(\"petId\", petId);",
+							"pm.environment.set(\"petName\", petName);",
+							"pm.environment.set(\"petStatus\", petStatus);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"invalid_id\",\n  \"category\": {\n    \"id\": 1,\n    \"name\": \"Dogs\"\n  },\n  \"name\": \"{{petName}}\",\n  \"photoUrls\": [\"https://example.com/photo.jpg\"],\n  \"tags\": [\n    {\n      \"id\": 1,\n      \"name\": \"friendly\"\n    }\n  ],\n  \"status\": \"{{petStatus}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://petstore.swagger.io/v2/pet",
+			"type": "string"
+		}
+	]
+}
