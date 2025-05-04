@@ -1,0 +1,9 @@
+{
+    "firstname": "Test",
+    "lastname": "User",
+    "address": "123 Test Street",
+    "city": "Testville",
+    "state":"California",
+    "zip": "12345",
+    "phone": "1234567890"
+  }

@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-05-04T12:01:28.516Z",
+    "end": "2025-05-04T12:02:30.721Z",
+    "duration": 62205,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "bb08a75f-9224-43d1-8cbf-299089fb7f90",
+      "title": "",
+      "fullFile": "cypress/e2e/tests/checkout.cy.js",
+      "file": "cypress/e2e/tests/checkout.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a254a3ac-b2e6-4e25-9746-954db548e955",
+          "title": "Checkout From wishlist",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should add product to wishlist and checkout from wishlist",
+              "fullTitle": "Checkout From wishlist should add product to wishlist and checkout from wishlist",
+              "timedOut": null,
+              "duration": 62172,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const productName = 'Diva Gym Tee';\nproductPage.addProductToWishlist(productName);\nproductPage.moveToCartFromWishlist(productName);\nproductPage.goToCart();\ncheckoutPage.proccedToCheckout();\ncy.fixture('Checkout.json').then(data => {\n  checkoutPage.completeCheckout(data);\n  checkoutPage.placeOrder(data);\n});\ncy.contains('Thank you for your purchase!').should('be.visible');",
+              "err": {},
+              "uuid": "4835a7d2-4f5c-49b6-95f3-c832c7332e44",
+              "parentUUID": "a254a3ac-b2e6-4e25-9746-954db548e955",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4835a7d2-4f5c-49b6-95f3-c832c7332e44"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 62172,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
